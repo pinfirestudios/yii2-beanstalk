@@ -18,5 +18,5 @@ abstract class BeanstalkAction extends \yii\base\Action
      *      BeanstalkController::DECAY
      * )
      */
-    public abstract function run(Pheanstalk\Job $job);
+    public abstract function run(\Pheanstalk\Job $job);
 }

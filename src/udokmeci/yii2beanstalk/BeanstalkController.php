@@ -51,7 +51,7 @@ class BeanstalkController extends Controller
      *
      * @return Beanstalk
      */
-    protected function getBeanstalk()
+    public function getBeanstalk()
     {
         return Yii::$app->beanstalk;
     }
@@ -386,7 +386,8 @@ class BeanstalkController extends Controller
      */
     protected function executeJob($actionName, $job)
     {
-        switch ($this->runAction($actionName, ['job' => $job])) {
+        $action = $this->createAction($actionName);
+        switch ($action->runWithParams(['job' => $job])) {
             case self::NO_ACTION:
                 break;
             case self::RELEASE:
@@ -411,5 +412,7 @@ class BeanstalkController extends Controller
                 $this->getBeanstalk()->bury($job);
                 break;
         }
+
+        Yii::getLogger()->flush();
     }
 }
